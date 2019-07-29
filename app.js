@@ -18,12 +18,19 @@ app.use(
             price: Float!
             date: String!
         }
+        // to have multiple arguments
+        input EventInput {
+            title: String
+            description: String!
+            price: Float!
+            date: String!
+        }
 
         type RootQuery {
             events: [Event!]!
         }
         type RootMutation {
-            createEvent(name: String): String
+            createEvent(eventInput: EventInput): Event
         }
 
         schema {

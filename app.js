@@ -6,6 +6,8 @@ const chalk = require("chalk");
 
 const app = express();
 
+const events = [];
+
 app.use(bodyParser.json());
 app.use(
   "/graphql",
@@ -18,7 +20,7 @@ app.use(
             price: Float!
             date: String!
         }
-        // to have multiple arguments
+       
         input EventInput {
             title: String
             description: String!
@@ -40,11 +42,17 @@ app.use(
     `),
     rootValue: {
       events: () => {
-        return ["Romantic Coooking", "Sailing", "All-Night Coding"];
+        return events;
       },
       createEvent: args => {
-        const eventName = args.name;
-        return eventName;
+        const event = {
+          _id: Math.random().toString(),
+          title: args.title,
+          description: args.description,
+          price: +args.price,
+          data: new Date().toISOString()
+        };
+        events.push(event);
       }
     },
     graphiql: true

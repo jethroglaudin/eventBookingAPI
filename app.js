@@ -44,20 +44,13 @@ app.use(
         return events;
       },
       createEvent: args => {
-        // const event = {
-        //   _id: Math.random().toString(),
-        //   title: args.eventInput.title,
-        //   description: args.eventInput.description,
-        //   price: +args.eventInput.price,
-        //   date: args.eventInput.date
-        // };
         const event = new Event({
           title: args.eventInput.title,
           description: args.eventInput.description,
           price: +args.eventInput.price,
           date: new Date(args.eventInput.date)
         });
-        event
+        return event
           .save()
           .then(result => {
             console.log(result);

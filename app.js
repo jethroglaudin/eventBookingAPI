@@ -43,7 +43,8 @@ app.use(
       events: () => {
      return Event.find().then(events => {
            return events.map(event => {
-               return { ...event._doc };
+               // convert to normal strong that's understood by graphql
+               return { ...event._doc, _id: event.id };
            })
        }).catch(err => {
            throw err
@@ -61,7 +62,7 @@ app.use(
           .then(result => {
             console.log(result);
             //gets all core properties that makes event object and leavse out meta data
-            return { ...result._doc };
+            return { ...result._doc, _id: result._doc._id.toString()};
           })
           .catch(err => {
             console.log(err);

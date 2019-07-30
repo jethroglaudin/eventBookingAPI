@@ -60,7 +60,7 @@ app.use(
 mongoose.connect(
   `mongodb+srv://${process.env.MONGO_USER}:${
     process.env.MONGO_PASSWORD
-  }@myexpressapp-jlald.mongodb.net/test?retryWrites=true&w=majority`
+  }@myexpressapp-jlald.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`
 ).then(() => {
     console.log(chalk.green.inverse("MongoDB Connected"));
 }).catch(err => {

@@ -5,9 +5,10 @@ const { buildSchema } = require("graphql");
 const chalk = require("chalk");
 const mongoose = require("mongoose");
 
-const app = express();
+// Import Model
+const Event = require("./models/event");
 
-const events = [];
+const app = express();
 
 app.use(bodyParser.json());
 app.use(
@@ -43,29 +44,49 @@ app.use(
         return events;
       },
       createEvent: args => {
-        const event = {
-          _id: Math.random().toString(),
+        // const event = {
+        //   _id: Math.random().toString(),
+        //   title: args.eventInput.title,
+        //   description: args.eventInput.description,
+        //   price: +args.eventInput.price,
+        //   date: args.eventInput.date
+        // };
+        const event = new Event({
           title: args.eventInput.title,
           description: args.eventInput.description,
           price: +args.eventInput.price,
-          date: args.eventInput.date
-        };
-        events.push(event);
-        return event;
+          date: new Date(args.eventInput.date)
+        });
+        event
+          .save()
+          .then(result => {
+            console.log(result);
+            //gets all core properties that makes event object and leavse out meta data
+            return { ...result._doc };
+          })
+          .catch(err => {
+            console.log(err);
+            throw err;
+          });
       }
     },
     graphiql: true
   })
 );
-mongoose.connect(
-  `mongodb+srv://${process.env.MONGO_USER}:${
-    process.env.MONGO_PASSWORD
-  }@myexpressapp-jlald.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`
-).then(() => {
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.MONGO_USER}:${
+      process.env.MONGO_PASSWORD
+    }@myexpressapp-jlald.mongodb.net/${
+      process.env.MONGO_DB
+    }?retryWrites=true&w=majority`
+  )
+  .then(() => {
     console.log(chalk.green.inverse("MongoDB Connected"));
-}).catch(err => {
-    console.log(err)
-})
+  })
+  .catch(err => {
+    console.log(err);
+  });
 
 const PORT = process.env.Port || 3000;
 app.listen(PORT, err => {

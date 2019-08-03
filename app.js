@@ -41,14 +41,16 @@ app.use(
     `),
     rootValue: {
       events: () => {
-     return Event.find().then(events => {
-           return events.map(event => {
-               // convert to normal strong that's understood by graphql
-               return { ...event._doc, _id: event.id };
-           })
-       }).catch(err => {
-           throw err
-       })
+        return Event.find()
+          .then(events => {
+            return events.map(event => {
+              // convert to normal strong that's understood by graphql
+              return { ...event._doc, _id: event.id };
+            });
+          })
+          .catch(err => {
+            throw err;
+          });
       },
       createEvent: args => {
         const event = new Event({
@@ -62,7 +64,7 @@ app.use(
           .then(result => {
             console.log(result);
             //gets all core properties that makes event object and leavse out meta data
-            return { ...result._doc, _id: result._doc._id.toString()};
+            return { ...result._doc, _id: result._doc._id.toString() };
           })
           .catch(err => {
             console.log(err);

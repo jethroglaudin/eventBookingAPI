@@ -21,7 +21,7 @@ const events = eventIds => {
     .then(events => {
       return events.map(event => {
         return { 
-          ...event_doc,
+          ...event._doc,
           _id: event.id,
           creator: user.bind(this, event.creator) 
           };

@@ -8,6 +8,8 @@ const mongoose = require("mongoose");
 // Import Model
 const Event = require("./models/event");
 
+// Import User Model
+const User = require("./models/user");
 const app = express();
 
 app.use(bodyParser.json());
@@ -41,6 +43,7 @@ app.use(
         }
         type RootMutation {
             createEvent(eventInput: EventInput): Event
+            createUser(userInput: UserInput): User
         }
         schema {
             query: RootQuery
@@ -78,6 +81,12 @@ app.use(
             console.log(err);
             throw err;
           });
+      },
+      createUser: args => {
+        const user = new User({
+          email: args.userInput.email,
+          password: args.userInput.password
+        })
       }
     },
     graphiql: true

@@ -14,6 +14,17 @@ const User = require("./models/user");
 const app = express();
 
 app.use(bodyParser.json());
+
+const user = userId => {
+  return User.findById(userId)
+    .then(user => {
+      return user;
+    })
+    .catch(err => {
+      throw err;
+    });
+};
+
 app.use(
   "/graphql",
   graphqlHttp({
@@ -24,11 +35,13 @@ app.use(
           description: String!
           price: Float!
           date: String!
+          creator: User!
         }
         type User {
           _id: ID!
           email: String!
           password: String
+          createdEvents: [Event!]
         }
         input EventInput {
           title: String!
@@ -58,7 +71,11 @@ app.use(
           .then(events => {
             return events.map(event => {
               // convert to normal strong that's understood by graphql
-              return { ...event._doc, _id: event.id };
+              return { 
+                ...event._doc, 
+                _id: event.id,
+                creator: user.bind(this, event.creator)
+              };
             });
           })
           .catch(err => {
@@ -77,15 +94,15 @@ app.use(
         return event
           .save()
           .then(result => {
-            createdEvent = { ...result._doc, _id: result._doc._id.toString() }
-          return  User.findById('5d47586cd7ed9a80536cfffe')
+            createdEvent = { ...result._doc, _id: result._doc._id.toString() };
+            return User.findById("5d47586cd7ed9a80536cfffe");
             console.log(result);
             //gets all core properties that makes event object and leavse out meta data
-           
-          }).then(user => {
+          })
+          .then(user => {
             // check if user
-            if(!user) {
-              throw new Error('User not found.');
+            if (!user) {
+              throw new Error("User not found.");
             }
             user.createdEvents.push(event);
             return user.save();

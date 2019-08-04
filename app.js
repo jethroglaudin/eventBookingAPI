@@ -15,10 +15,31 @@ const app = express();
 
 app.use(bodyParser.json());
 
+const events = eventIds => {
+  // look for through events where ID is in a list of ids.
+  return Event.find({ _id: { $in: eventIds } })
+    .then(events => {
+      return events.map(event => {
+        return { 
+          ...event_doc,
+          _id: event.id,
+          creator: user.bind(this, event.creator) 
+          };
+      });
+    })
+    .catch(err => {
+      throw err;
+    });
+};
+
 const user = userId => {
   return User.findById(userId)
     .then(user => {
-      return user;
+      return {
+        ...user._doc,
+        _id: user.id,
+        createdEvents: events.bind(this, user.createdEvents)
+      };
     })
     .catch(err => {
       throw err;
@@ -71,8 +92,8 @@ app.use(
           .then(events => {
             return events.map(event => {
               // convert to normal strong that's understood by graphql
-              return { 
-                ...event._doc, 
+              return {
+                ...event._doc,
                 _id: event.id,
                 creator: user.bind(this, event.creator)
               };

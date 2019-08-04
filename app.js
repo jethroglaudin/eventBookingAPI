@@ -22,11 +22,19 @@ app.use(
           price: Float!
           date: String!
         }
+        type User {
+          _id: ID!
+          password: String
+        }
         input EventInput {
           title: String!
           description: String!
           price: Float!
           date: String!
+        }
+        input UserInput {
+          email: String!
+          password: String!
         }
         type RootQuery {
             events: [Event!]!

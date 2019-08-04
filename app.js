@@ -4,6 +4,7 @@ const graphqlHttp = require("express-graphql");
 const { buildSchema } = require("graphql");
 const chalk = require("chalk");
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 // Import Model
 const Event = require("./models/event");
@@ -83,10 +84,21 @@ app.use(
           });
       },
       createUser: args => {
-        const user = new User({
-          email: args.userInput.email,
-          password: args.userInput.password
-        })
+       return bcrypt
+          .hash(args.userInput.password, 12)
+          .then(hashedPassword => {
+            const user = new User({
+              email: args.userInput.email,
+              password: args.userInput.password
+            });
+            return user.save();
+          })
+          .then(result => {
+            return {...result_.doc, _id: result.id}
+          })
+          .catch(err => {
+            throw err;
+          });  
       }
     },
     graphiql: true

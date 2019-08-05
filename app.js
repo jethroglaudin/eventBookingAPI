@@ -14,12 +14,10 @@ app.use(bodyParser.json());
 
 
 app.use(
-  "/graphql",
+  '/graphql',
   graphqlHttp({
-
-   
-      
-     
+    schema: graphQlSchema,
+    rootValue: graphQlResolvers,
     graphiql: true
   })
 );

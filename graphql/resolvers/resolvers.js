@@ -1,8 +1,6 @@
 const bcrypt = require("bcryptjs");
-
 // Import Model
 const Event = require("../../models/event");
-
 // Import User Model
 const User = require("../../models/user");
 
@@ -14,6 +12,7 @@ const events = eventIds => {
         return {
           ...event._doc,
           _id: event.id,
+          date: new Date(event._doc.date).toISOString(),
           creator: user.bind(this, event.creator)
         };
       });
@@ -46,6 +45,7 @@ module.exports = {
           return {
             ...event._doc,
             _id: event.id,
+            date: new Date(event.date).toISOString(),
             creator: user.bind(this, event.creator)
           };
         });
@@ -69,6 +69,7 @@ module.exports = {
         createdEvent = {
           ...result._doc,
           _id: result._doc._id.toString(),
+          date: new Date(event.date).toISOString(),
           creator: user.bind(this, result.creator)
         };
         return User.findById("5d47586cd7ed9a80536cfffe");

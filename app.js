@@ -27,7 +27,7 @@ mongoose
       process.env.MONGO_PASSWORD
     }@myexpressapp-jlald.mongodb.net/${
       process.env.MONGO_DB
-    }?retryWrites=true&w=majority`
+    }?retryWrites=true&w=majority`, { useNewUrlParser: true }
   )
   .then(() => {
     console.log(chalk.green.inverse("MongoDB Connected"));

@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const Event = require("../../models/event");
 // Import User Model
 const User = require("../../models/user");
+const Booking = require("../../models/booking");
 
 const events = async eventIds => {
   // look for through events where ID is in a list of ids.
@@ -46,6 +47,21 @@ module.exports = {
           _id: event.id,
           date: new Date(event.date).toISOString(),
           creator: user.bind(this, event.creator)
+        };
+      });
+    } catch (err) {
+      throw err;
+    }
+  },
+  bookings: async () => {
+    try {
+      const bookings = await Booking.find();
+      return bookings.map(booking => {
+        return {
+          ...booking._doc,
+          _id: booking.id,
+          createdAt: new Date(booking.createdAt).toISOString(),
+          updatedAt: new Date(booking.updatedAt).toISOString()
         };
       });
     } catch (err) {

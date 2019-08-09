@@ -73,6 +73,8 @@ module.exports = {
         return {
           ...booking._doc,
           _id: booking.id,
+          user: user.bind(this, booking.user),
+          event: singleEvent.bind(this, booking.event),
           createdAt: new Date(booking.createdAt).toISOString(),
           updatedAt: new Date(booking.updatedAt).toISOString()
         };

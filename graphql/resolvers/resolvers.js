@@ -27,7 +27,7 @@ const singleEvent = async eventId => {
   try {
     const event = await Event.findById(eventId);
     return {
-      ...event.doc,
+      ...event._doc,
       _id: event.id,
       creator: user.bind(this, event.creator)
     };
@@ -74,7 +74,7 @@ module.exports = {
           ...booking._doc,
           _id: booking.id,
           user: user.bind(this, booking.user),
-          event: singleEvent.bind(this, booking.event),
+          event: singleEvent.bind(this, booking._doc.event),
           createdAt: new Date(booking.createdAt).toISOString(),
           updatedAt: new Date(booking.updatedAt).toISOString()
         };

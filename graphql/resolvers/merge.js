@@ -1,5 +1,6 @@
 const Event = require('../../models/event');
 const User = require('../../models/user');
+const { dateToString } = require('../../helpers/date');
 
 const events = async eventIds => {
     // look for through events where ID is in a list of ids.
@@ -21,6 +22,8 @@ const events = async eventIds => {
       throw err;
     }
   };
+
+  
   
   const user = async userId => {
     try {
@@ -35,6 +38,29 @@ const events = async eventIds => {
     }
   };
 
-  exports.user = user;
-//   exports.events = events;
-  exports.singleEvent = singleEvent;
+  const transformEvent = event => {
+    return {
+      ...event._doc,
+      _id: event.id,
+      date: dateToString(event._doc.date),
+      creator: user.bind(this, event.creator)
+    };
+  };
+
+  const transformBooking = booking => {
+    return {
+      ...booking._doc,
+      _id: booking.id,
+      user: user.bind(this, booking.user),
+      event: singleEvent.bind(this, booking._doc.event),
+      createdAt: dateToString(booking.createdAt),
+      updatedAt: dateToString(booking.updatedAt)
+    };
+  };
+  
+  exports.transformEvent = transformEvent;
+  exports.transformBooking = transformBooking;
+
+//   exports.user = user;
+//    exports.events = events;
+//   exports.singleEvent = singleEvent;

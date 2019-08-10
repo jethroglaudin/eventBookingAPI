@@ -9,7 +9,7 @@ const events = async eventIds => {
   // look for through events where ID is in a list of ids.
   try {
     const events = await Event.find({ _id: { $in: eventIds } });
-    events.map(event => {
+    return events.map(event => {
       return {
         ...event._doc,
         _id: event.id,
@@ -17,7 +17,6 @@ const events = async eventIds => {
         creator: user.bind(this, event.creator)
       };
     });
-    return events;
   } catch (err) {
     throw err;
   }

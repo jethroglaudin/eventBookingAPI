@@ -1,3 +1,6 @@
+const Event = require('../../models/event');
+const User = require('../../models/user');
+
 const events = async eventIds => {
     // look for through events where ID is in a list of ids.
     try {
@@ -33,5 +36,5 @@ const events = async eventIds => {
   };
 
   exports.user = user;
-  exports.events = events;
+//   exports.events = events;
   exports.singleEvent = singleEvent;

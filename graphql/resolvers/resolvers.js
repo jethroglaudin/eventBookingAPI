@@ -5,17 +5,21 @@ const Event = require("../../models/event");
 const User = require("../../models/user");
 const Booking = require("../../models/booking");
 
+const transformEvent = event => {
+  return {
+    ...event._doc,
+    _id: event.id,
+    date: new Date(event._doc.date).toISOString(),
+    creator: user.bind(this, event.creator)
+  };
+};
+
 const events = async eventIds => {
   // look for through events where ID is in a list of ids.
   try {
     const events = await Event.find({ _id: { $in: eventIds } });
     return events.map(event => {
-      return {
-        ...event._doc,
-        _id: event.id,
-        date: new Date(event._doc.date).toISOString(),
-        creator: user.bind(this, event.creator)
-      };
+      return transformEvent(event);
     });
   } catch (err) {
     throw err;
@@ -25,11 +29,7 @@ const events = async eventIds => {
 const singleEvent = async eventId => {
   try {
     const event = await Event.findById(eventId);
-    return {
-      ...event._doc,
-      _id: event.id,
-      creator: user.bind(this, event.creator)
-    };
+    return transformEvent(event)
   } catch (err) {
     throw err;
   }
@@ -54,12 +54,7 @@ module.exports = {
       const events = await Event.find();
       return events.map(event => {
         // convert to normal strong that's understood by graphql
-        return {
-          ...event._doc,
-          _id: event.id,
-          date: new Date(event.date).toISOString(),
-          creator: user.bind(this, event.creator)
-        };
+        return transformEvent(event)
       });
     } catch (err) {
       throw err;
@@ -93,13 +88,7 @@ module.exports = {
     let createdEvent;
     try {
       const result = await event.save();
-
-      createdEvent = {
-        ...result._doc,
-        _id: result._doc._id.toString(),
-        date: new Date(event.date).toISOString(),
-        creator: user.bind(this, result.creator)
-      };
+      createdEvent = transformEvent(result);
       const creator = await User.findById("5d478568c711283ecf93cb53");
       console.log(result);
       //gets all core properties that makes event object and leavse out meta data
@@ -152,12 +141,8 @@ module.exports = {
   },
   cancelBooking: async args => {
     try {
-      const booking = await Booking.findById(args.bookingId).populate('event');
-      const event = {
-        ...booking.event._doc,
-        _id: booking.event.id,
-        creator: user.bind(this, booking.event._doc.creator)
-      };
+      const booking = await Booking.findById(args.bookingId).populate("event");
+      const event = transformEvent(booking.event);
       await Booking.deleteOne({ _id: args.bookingId });
       return event;
     } catch (err) {

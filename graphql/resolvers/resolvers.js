@@ -4,6 +4,7 @@ const Event = require("../../models/event");
 // Import User Model
 const User = require("../../models/user");
 const Booking = require("../../models/booking");
+const { dateToString } = require('../../helpers/date')
 
 const transformEvent = event => {
   return {

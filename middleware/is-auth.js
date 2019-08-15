@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 module.exports = (req, res, next) => {
   // this sees if theres is an authorization field within the incoming request
   const authHeader = req.get("Authorization");
@@ -7,7 +9,7 @@ module.exports = (req, res, next) => {
   }
   // split auth header on the white space
   const token = authHeader.split(" ")[1]; // bearer token
-  if (!token || token === "") {
+  if (!token || token === '') {
     req.isAuth = false;
     return next();
   }

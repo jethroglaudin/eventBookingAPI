@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const graphqlHttp = require("express-graphql");
 const chalk = require("chalk");
 const mongoose = require("mongoose");
+const isAuth = require("./middleware/is-auth");
 
 const graphQlSchema = require("./graphql/schema/schema");
 const graphQlResolvers = require("./graphql/resolvers/resolvers");
@@ -10,6 +11,8 @@ const graphQlResolvers = require("./graphql/resolvers/resolvers");
 const app = express();
 
 app.use(bodyParser.json());
+// express with use this as a middleware and will run on every incoming request
+app.use(isAuth);
 
 
 

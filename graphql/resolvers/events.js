@@ -1,4 +1,5 @@
 const Event = require("../../models/event");
+const User = require('../../models/user');
 const { transformEvent } = require("./merge");
 
 module.exports = {
@@ -30,7 +31,7 @@ module.exports = {
       const result = await event.save();
       createdEvent = transformEvent(result);
       const creator = await User.findById("5d478568c711283ecf93cb53");
-      console.log(result);
+      // console.log(result);
       //gets all core properties that makes event object and leavse out meta data
 
       // check if user
@@ -39,6 +40,7 @@ module.exports = {
       }
       creator.createdEvents.push(event);
       await creator.save();
+      
       return createdEvent;
     } catch (err) {
       console.log(err);

@@ -17,7 +17,7 @@ function App() {
   return (
     <Router>
       <MainNavigation />
-      <main>
+      <main className="main-content">
         <Switch>
           <Redirect path="/" to="/auth" exact />
           <Route path="/auth" component={AuthPage} />

@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 
 import AuthPage from "./pages/Auth";
+import BookingsPage from './pages/Bookings';
+import EventsPage from './pages/Events';
 
 import "./App.css";
 

@@ -18,8 +18,8 @@ function App() {
       <Switch>
         <Redirect path="/" to="/auth" exact />
         <Route path="/auth" component={AuthPage} />
-        <Route path="/events" component={null} />
-        <Route path="/bookings" component={null} />
+        <Route path="/events" component={EventsPage} />
+        <Route path="/bookings" component={BookingsPage} />
       </Switch>
     </Router>
   );

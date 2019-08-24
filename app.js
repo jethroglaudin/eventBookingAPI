@@ -20,6 +20,11 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
   // controls which kind of request headers we can set for the request to the server
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  if(req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
 })
 
 

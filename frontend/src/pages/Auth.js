@@ -17,13 +17,14 @@ class AuthPage extends Component {
             // either not email or no passord then we just return and do not continue
             return;
         }
-        
+
+        console.log(email, password);
 
 
     };
   render() {
     return (
-       <form className="auth-form">
+       <form className="auth-form" onSubmit={this.submitHandler}>
         <div className="form-control">
         <label htmlFor="email">E-Mail</label>
           <input type="email" id="email" ref= { this.emailEl } />

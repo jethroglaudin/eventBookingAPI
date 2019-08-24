@@ -3,9 +3,9 @@ import React, { Component } from "react";
 import "./Auth.css";
 
 class AuthPage extends Component {
-    state = {
-        isLogin: true
-    }
+  state = {
+    isLogin: true
+  };
   constructor(props) {
     super(props);
     this.emailEl = React.createRef();
@@ -13,10 +13,10 @@ class AuthPage extends Component {
   }
 
   switchModeHandler = () => {
-      this.setState(prevState => {
-          return {isLogin: !prevState.isLogin};
-      })
-  }
+    this.setState(prevState => {
+      return { isLogin: !prevState.isLogin };
+    });
+  };
 
   submitHandler = e => {
     e.preventDefault();
@@ -28,37 +28,51 @@ class AuthPage extends Component {
       return;
     }
 
-    const requestBody = {
+    let requestBody = {
       query: `
-            mutation {
-                createUser(userInput: {email: "${email}", password: "${password}"}) {
-                    _id
-                    email
-                }
+        query {
+            login(email: "${email}", password: "${password}) {
+                userId
+                token
+                tokenExpiration
             }
-            
-            
-            `
+        }
+        
+        `
     };
 
-    fetch('http://localhost:4000/graphql', {
+    if (!this.state.isLogin) {
+      requestBody = {
+        query: `
+                mutation {
+                    createUser(userInput: {email: "${email}", password: "${password}"}) {
+                        _id
+                        email
+                    }
+                }
+                 `
+      };
+    }
+
+    fetch("http://localhost:4000/graphql", {
       method: "POST",
       body: JSON.stringify(requestBody),
       headers: {
         "Content-Type": "application/json"
       }
-    }).then(res => {
-        if(res.status !== 200 && res.status !== 201) {
-            throw new Error('Failed');
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error("Failed");
         }
         return res.json();
-    })
-    .then(resData => {
+      })
+      .then(resData => {
         console.log(resData);
-    })
-    .catch(err => {
+      })
+      .catch(err => {
         console.log(err);
-    });
+      });
   };
   render() {
     return (
@@ -73,7 +87,9 @@ class AuthPage extends Component {
         </div>
         <div className="form-actions">
           <button type="submit">Submit</button>
-          <button type="button" onClick={this.switchModeHandler}> Switch to {this.state.isLogin ? 'Signup' : 'Login'}
+          <button type="button" onClick={this.switchModeHandler}>
+            {" "}
+            Switch to {this.state.isLogin ? "Signup" : "Login"}
           </button>
         </div>
       </form>

@@ -11,7 +11,20 @@ const graphQlResolvers = require("./graphql/resolvers/resolvers");
 const app = express();
 
 app.use(bodyParser.json());
+
+// middleware headers for every request sent
+app.use((req, res, next) => {
+  // Means everyhost/client can send request to this server
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  // Control which type or requests can be sent... browser always ends an options request before anything else
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+  // controls which kind of request headers we can set for the request to the server
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+})
+
+
 // express with use this as a middleware and will run on every incoming request
+
 app.use(isAuth);
 
 

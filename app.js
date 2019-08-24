@@ -39,7 +39,7 @@ mongoose
     console.log(err);
   });
 
-const PORT = process.env.Port || 3000;
+const PORT = process.env.Port || 4000;
 app.listen(PORT, err => {
   if (err) throw err;
   console.log(chalk.blue.inverse(`App currently listening on port ${PORT})`));

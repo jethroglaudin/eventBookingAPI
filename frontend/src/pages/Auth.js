@@ -10,6 +10,15 @@ class AuthPage extends Component {
     }
 
     submitHandler = () => {
+        const email = this.emailEl.current.value;
+        const password = this.passwordEl.current.value;
+
+        if(email.trim().length === 0 || password.trim().length === 0) {
+            // either not email or no passord then we just return and do not continue
+            return;
+        }
+        
+
 
     };
   render() {

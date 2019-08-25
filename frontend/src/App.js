@@ -14,22 +14,25 @@ import AuthContext from './context/auth-context';
 
 import "./App.css";
 
-function App() {
-  return (
-    <Router>
-      <AuthContext.Provider>
-      <MainNavigation />
-      <main className="main-content">
-        <Switch>
-          <Redirect path="/" to="/auth" exact />
-          <Route path="/auth" component={AuthPage} />
-          <Route path="/events" component={EventsPage} />
-          <Route path="/bookings" component={BookingsPage} />
-        </Switch>
-      </main>
-      </AuthContext.Provider>
-    </Router>
-  );
+class App extends Component {
+  render() {
+    return (
+      <Router>
+        <AuthContext.Provider value={{token: null, userId: null }}>
+        <MainNavigation />
+        <main className="main-content">
+          <Switch>
+            <Redirect path="/" to="/auth" exact />
+            <Route path="/auth" component={AuthPage} />
+            <Route path="/events" component={EventsPage} />
+            <Route path="/bookings" component={BookingsPage} />
+          </Switch>
+        </main>
+        </AuthContext.Provider>
+      </Router>
+    );
+  }
+  
 }
 
 export default App;

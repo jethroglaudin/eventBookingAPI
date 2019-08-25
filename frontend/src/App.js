@@ -10,12 +10,14 @@ import AuthPage from "./pages/Auth";
 import BookingsPage from "./pages/Bookings";
 import EventsPage from "./pages/Events";
 import MainNavigation from "./components/Navigation/MainNavigation";
+import AuthContext from './context/auth-context';
 
 import "./App.css";
 
 function App() {
   return (
     <Router>
+      <AuthContext.Provider>
       <MainNavigation />
       <main className="main-content">
         <Switch>
@@ -25,6 +27,7 @@ function App() {
           <Route path="/bookings" component={BookingsPage} />
         </Switch>
       </main>
+      </AuthContext.Provider>
     </Router>
   );
 }

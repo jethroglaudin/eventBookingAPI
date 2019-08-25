@@ -29,7 +29,12 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <AuthContext.Provider value={{token: null, userId: null, login: this.login, logout: this.logout }>
+        <AuthContext.Provider 
+        value={{
+          token: this.state.token, 
+          userId: this.state.userId, 
+          login: this.login, 
+          logout: this.logout }}>
         <MainNavigation />
         <main className="main-content">
           <Switch>

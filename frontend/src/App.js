@@ -15,10 +15,21 @@ import AuthContext from './context/auth-context';
 import "./App.css";
 
 class App extends Component {
+  state = {
+    token: null,
+    userId: null
+  }
+  login = (token, userId, tokenExpiration) => {
+    this.setState({token: token, userId: userId})
+  }
+
+  logout = () => {
+
+  }
   render() {
     return (
       <Router>
-        <AuthContext.Provider value={{token: null, userId: null }}>
+        <AuthContext.Provider value={{token: null, userId: null, login: this.login, logout: this.logout }>
         <MainNavigation />
         <main className="main-content">
           <Switch>

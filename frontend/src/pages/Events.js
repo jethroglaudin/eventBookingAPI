@@ -5,16 +5,25 @@ import Backdrop from '../components/Backdrop/Backdrop';
 import './events.css';
 
  class EventsPage extends Component {
+     state = {
+         creating: false
+     };
+
+     startCreateEventHandler = () => {
+         this.setState({creating: true});
+     }
     render() {
         return (
             <React.Fragment>
-                <Backdrop />
-                <Modal title="Add Event" canCancel canConfirm>
+                {this.state.creating && <Backdrop />}
+
+               {this.state.creating && 
+               <Modal title="Add Event" canCancel canConfirm>
                     <p>Modal Content</p>
-                </Modal>
+                </Modal>}
             <div className="events-control">
                 <p>Share you own Events!</p>
-               <button className="btn">Create Event</button>
+               <button className="btn" onClick={this.startCreateEventHandler}>Create Event</button>
             </div>
             </React.Fragment>
         )

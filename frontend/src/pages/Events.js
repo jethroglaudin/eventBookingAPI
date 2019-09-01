@@ -41,7 +41,7 @@ import './events.css';
                             <input type="date" id="date"/>
                         </div>
                         <div className="form-control">
-                            <label htmlFor="description">description</label>
+                            <label htmlFor="description">Description</label>
                             <textarea id="description" rows="4"></textarea>
                         </div>
                     </form>

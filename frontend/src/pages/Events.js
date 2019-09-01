@@ -27,7 +27,24 @@ import './events.css';
 
                {this.state.creating && 
                <Modal title="Add Event" canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.modalConfirmHandler}> 
-                    <p>Modal Content</p>
+                    <form>
+                        <div className="form-control">
+                            <label htmlFor="title">Title</label>
+                            <input type="text" id="title"/>
+                        </div>
+                        <div className="form-control">
+                            <label htmlFor="price">Price</label>
+                            <input type="number" id="price"/>
+                        </div>
+                        <div className="form-control">
+                            <label htmlFor="date">Date</label>
+                            <input type="date" id="date"/>
+                        </div>
+                        <div className="form-control">
+                            <label htmlFor="description">description</label>
+                            <textarea id="description" rows="4"></textarea>
+                        </div>
+                    </form>
                 </Modal>}
             <div className="events-control">
                 <p>Share you own Events!</p>

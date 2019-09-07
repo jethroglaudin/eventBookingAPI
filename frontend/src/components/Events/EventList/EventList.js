@@ -1,7 +1,14 @@
-import React from 'react';
+import React from "react";
 
-const eventList = props => (<ul className="events__list">
-{eventList}
-</ul>);
+import EventItem from "./EventItem/EventItem";
+import "./EventItem.css";
+
+const eventList = props => {
+  const events = props.events.map(event => {
+    return <EventItem eventId={event._id} title={event.title} />;
+  });
+
+  return <ul className="event__list">{events}</ul>;
+};
 
 export default eventList;

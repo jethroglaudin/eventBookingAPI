@@ -1,7 +1,7 @@
 import React from "react";
 
 import EventItem from "./EventItem/EventItem";
-import "./EventItem.css";
+import './EventList.css';
 
 const eventList = props => {
   const events = props.events.map(event => {

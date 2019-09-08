@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Modal from "../components/Modal/Modal";
+import EventList from '../components/Events/EventList/EventList';
 import Backdrop from "../components/Backdrop/Backdrop";
 import AuthContext from "../context/auth-context";
 import "./events.css";
@@ -7,7 +8,7 @@ import "./events.css";
 class EventsPage extends Component {
   state = {
     creating: false,
-    events: new Array()
+    events: []
   };
 
   static contextType = AuthContext;
@@ -137,14 +138,7 @@ class EventsPage extends Component {
       });
   }
 
-  render() {
-    const eventList = this.state.events.map(event => {
-      return (
-        <li key={event._id} className="events__list-item">
-          {event.title}
-        </li>
-      );
-    });
+  render() {  
     return (
       <React.Fragment>
         {this.state.creating && <Backdrop />}
@@ -189,9 +183,7 @@ class EventsPage extends Component {
             </button>
           </div>
         )}
-        <ul className="events__list">
-        {eventList}
-        </ul>
+        <EventList events={this.state.events} authUserId={this.context.userId} />
       </React.Fragment>
     );
   }

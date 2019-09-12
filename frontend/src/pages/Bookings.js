@@ -10,18 +10,18 @@ import React, { Component } from 'react'
      }
 
      fetchBookings = () => {
+       this.setState({isLoading: true});
         const requestBody = {
             query: `
                 query {
-                  events {
+                  bookings {
                     _id
-                    title
-                    description
-                    date
-                    price
-                    creator {
+                    createdAt
+                    event {
                       _id
-                      email
+                      title
+                      date
+                    }
                     }
                   }
                 }

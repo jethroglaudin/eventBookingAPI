@@ -6,7 +6,7 @@ import React, { Component } from 'react'
          bookings: []
      }
      componentDidMount(){
-
+      this.fetchBookings();
      }
 
      fetchBookings = () => {
@@ -42,9 +42,9 @@ import React, { Component } from 'react'
               return res.json();
             })
             .then(resData => {
-              const events = resData.data.events;
+              const bookings = resData.data.bookings;
               if (this.isActive) {
-                this.setState({ events: events, isLoading: false });
+                this.setState({ bookings: bookings, isLoading: false });
               }
             })
             .catch(err => {
@@ -57,7 +57,9 @@ import React, { Component } from 'react'
     render() {
         return (
             <div>
-               <h1>The Bookings Page</h1> 
+               <ul>
+                 {this.state.bookings.map(booking => <li>{booking.event.title}  -  {new Date(booking.createdAt).toLocaleDateString()}</li>)}
+               </ul>
             </div>
         )
     }

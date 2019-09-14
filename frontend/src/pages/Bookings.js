@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import Spinner from "../components/Spinner/Spinner";
 import AuthContext from "../context/auth-context";
 import BookingList from "../components/Bookings/BookingList/BookingList";
+import BookingsChart from "../components/Bookings/BookingsChart/BookingsChart";
+
 
 class BookingsPage extends Component {
   state = {
@@ -113,7 +115,7 @@ class BookingsPage extends Component {
     
   render() {
     let content = <Spinner />
-    if(this.state.isLoading){
+    if(!this.state.isLoading){
       content = (
         <React.Fragment>
           <div>
@@ -121,7 +123,7 @@ class BookingsPage extends Component {
             <button onClick={this.changeOutPutTypeHandler.bind(this, 'chart')}>Chart</button>
           </div>
           <div>
-
+            {this.state.outputType === 'list' ? <BookingList bookings={this.state.bookings}/> : <BookingsChart bookings={this.state.bookings}/>}
           </div>
         </React.Fragment>
       )

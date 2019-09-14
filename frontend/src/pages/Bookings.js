@@ -7,7 +7,8 @@ import BookingList from "../components/Bookings/BookingList/BookingList";
 class BookingsPage extends Component {
   state = {
     isLoading: false,
-    bookings: []
+    bookings: [],
+    outputType: 'list'
   };
 
   static contextType = AuthContext;
@@ -102,17 +103,32 @@ class BookingsPage extends Component {
       });
     }
 
+    changeOutPutTypeHandler = outputType => {
+      if (outputType === 'list') {
+        this.setState({outputType: 'list'});
+      } else {
+        this.setState({outputType: 'chart'});
+      }
+    }
+    
   render() {
+    let content = <Spinner />
+    if(this.state.isLoading){
+      content = (
+        <React.Fragment>
+          <div>
+            <button onClick={this.changeOutPutTypeHandler.bind(this, 'list')}>List</button>
+            <button onClick={this.changeOutPutTypeHandler.bind(this, 'chart')}>Chart</button>
+          </div>
+          <div>
+
+          </div>
+        </React.Fragment>
+      )
+    }
     return (
       <React.Fragment>
-        {this.state.isLoading ? (
-          <Spinner />
-        ) : (
-          <BookingList
-            bookings={this.state.bookings}
-            onDelete={this.deleteBookingHandler}
-          />
-        )}
+       {content}
       </React.Fragment>
     );
   }

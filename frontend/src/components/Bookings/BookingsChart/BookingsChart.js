@@ -1,5 +1,7 @@
 import React from 'react';
 
-const bookingsChart = props => {}
+const bookingsChart = props => {
+    return <p>The Chart!</p>
+}
 
 export default bookingsChart;

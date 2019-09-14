@@ -5,12 +5,11 @@ import AuthContext from "../context/auth-context";
 import BookingList from "../components/Bookings/BookingList/BookingList";
 import BookingsChart from "../components/Bookings/BookingsChart/BookingsChart";
 
-
 class BookingsPage extends Component {
   state = {
     isLoading: false,
     bookings: [],
-    outputType: 'list'
+    outputType: "list"
   };
 
   static contextType = AuthContext;
@@ -72,22 +71,22 @@ class BookingsPage extends Component {
             }
           }
         `,
-        variables: {
-          id: bookingId
-        }
+      variables: {
+        id: bookingId
+      }
     };
 
-    fetch('http://localhost:4000/graphql', {
-      method: 'POST',
+    fetch("http://localhost:4000/graphql", {
+      method: "POST",
       body: JSON.stringify(requestBody),
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + this.context.token
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.context.token
       }
     })
       .then(res => {
         if (res.status !== 200 && res.status !== 201) {
-          throw new Error('Failed!');
+          throw new Error("Failed!");
         }
         return res.json();
       })
@@ -103,36 +102,40 @@ class BookingsPage extends Component {
         console.log(err);
         this.setState({ isLoading: false });
       });
-    }
+  };
 
-    changeOutPutTypeHandler = outputType => {
-      if (outputType === 'list') {
-        this.setState({outputType: 'list'});
-      } else {
-        this.setState({outputType: 'chart'});
-      }
+  changeOutPutTypeHandler = outputType => {
+    if (outputType === "list") {
+      this.setState({ outputType: "list" });
+    } else {
+      this.setState({ outputType: "chart" });
     }
-    
+  };
+
   render() {
-    let content = <Spinner />
-    if(!this.state.isLoading){
+    let content = <Spinner />;
+    if (!this.state.isLoading) {
       content = (
         <React.Fragment>
           <div>
-            <button onClick={this.changeOutPutTypeHandler.bind(this, 'list')}>List</button>
-            <button onClick={this.changeOutPutTypeHandler.bind(this, 'chart')}>Chart</button>
+            <button onClick={this.changeOutPutTypeHandler.bind(this, "list")}>
+              List
+            </button>
+            <button onClick={this.changeOutPutTypeHandler.bind(this, "chart")}>
+              Chart
+            </button>
           </div>
           <div>
-            {this.state.outputType === 'list' ? <BookingList bookings={this.state.bookings}/> : <BookingsChart bookings={this.state.bookings}/>}
+            {this.state.outputType === "list" ? (
+              <BookingList bookings={this.state.bookings} onDelete={this.deleteBookingHandler}/>
+            ) : (
+              <BookingsChart bookings={this.state.bookings} />
+            )}
           </div>
         </React.Fragment>
-      )
+      );
     }
-    return (
-      <React.Fragment>
-       {content}
-      </React.Fragment>
-    );
+    return <React.Fragment>{content}</React.Fragment>;
   }
 }
 

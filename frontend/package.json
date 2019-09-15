@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "chart.js": "^1.1.1",
     "eslint-utils": "^1.4.2",
     "react": "^16.9.0",
     "react-chartjs": "^1.2.0",
